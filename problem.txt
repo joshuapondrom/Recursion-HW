@@ -1,0 +1,175 @@
+HOMEWORK #5:
+Heist!
+Due Date: Friday, April the 7th, 11:59:59pm
+
+For this assignment, submit as many files as you need, but let your  ‘main()’  function be in a file called : ‘heist.cpp’.  Remember to put your name and section at the top of all files. Your program should expect all input to come from ‘cin’, and all your output should be to ‘cout’.   
+Problem:
+Bender is trapped in the middle of a heist! Suppose the bank Bender is robbing can be mapped as a 2 dimensional grid. Some cells are occupied by walls, so Bender cannot enter them. There are also traps in some of the cells that will do terrible things to Bender if disturbed. 
+
+Your job is to write a program that finds, for every map, a path to the exit.
+
+
+Input:
+The input will consist of a sequence of maps. Each map input starts with the number of rows and the number of columns of the map. In a map, a ‘#’ character denotes a wall. A character ‘T’ denotes a trap. A ‘ ‘ (blank space) character denotes a clear section. ‘B’ marks Bender’s starting point and ‘E’ marks the exit. The input is finished when a map of size 0 by 0 is indicated.
+Output:
+Output each map with a path from the “Start Point” to the “Exit” . Mark the path using cookie crumbles (character ‘.’). Follow the format as in the sample output.
+Details:
+Use Recursive Backtracking.
+Bender can move in any of the cardinal directions (North, East, West and South). No diagonal moves are possible.
+
+Implementation Guidelines:
+Build your own simple test cases. 
+Print plenty of status messages to track the progress of your algorithm.
+Start with the Recursive Backtracking algorithm, and refine it into your implementation as done in class.
+Recursive Backtracking Algorithm:
+solve i’th step
+    Initialize possible choices
+    DO
+        select choice
+        IF choice acceptable
+            record choice
+            IF solution complete
+                return success
+            ELSE
+                solved = solve i+1’th step
+                IF solved
+                    return success
+                ELSE
+                    undo choice recording    
+    WHILE more choices available.
+    return fail
+First Refinement:
+solve (x, y)
+    choices = {north, south, east, west}
+    FOR each choice C
+        x', y' = moving in the C direction from x,y          
+        IF x', y' is a valid location
+            record C
+            IF exit at x', y'
+                return success
+            ELSE
+                solved = solve(x', y')
+                IF solved
+                    return success
+                ELSE
+                    undo recording of C
+    RETURN fail
+Reading Lines with White-Space:
+In this assignment, you are required to read lines with white spaces. You may attempt to use something like:
+cin >> maze[i][j];
+But that would NOT work, as the extraction operator ‘>>’ ignores white spaces.
+
+You will therefore be forced to use one of the following library functions:
+string function  getline()  to read string objects.
+stream function  getline()  to read “null terminated character arrays”.
+stream function  get()  to read character by character. 
+
+Code Sample #1: Reading Strings objects:
+
+  // Maze is an array of strings
+  string* maze;
+    
+  // Readin size of maze
+  cin >> cs >> rs; 
+  cout << cs << " " << rs << endl;
+  cin.ignore();              // to move read head to next line
+      
+  // Allocate Maze Array
+  maze = new string[rs];
+ 
+  // Read Maze
+  // each row is a string; 
+  for(int k=0; k < rs; k++){
+    getline(cin, maze[k]);
+  }
+  
+  // Print Maze Array
+  for(int k=0; k < rs; k++){
+    cout << maze[k] << endl;
+  }  
+  
+  // De-allocate Maze Array
+  delete [] maze;
+
+
+Code Sample #2: Reading “Null Terminated Character Arrays”:
+
+  // Maze is a 2D array of characters
+  char** maze;
+  
+  // Readin size of Maze
+  cin >> cs >> rs; 
+  cout << cs << " " << rs << endl;
+  cin.ignore();    // to move read head to next line
+      
+  // Allocate Maze Array
+  // Notice that an EXTRA cell is added to the columns
+  // to account for NULL termination
+  maze = new char*[rs];
+  for(int k=0; k < rs; k++){
+    maze[k] = new char[cs+1];
+  }  
+  
+  // Read Maze Array
+  // Notice that we are reading each line as 
+  // a "NULL Terminated Character Array"
+  for(int k=0; k < rs; k++){
+    cin.getline(maze[k], cs+1);
+  }
+ 
+  // Print Maze Array
+  for(int k=0; k < rs; k++){
+    cout << maze[k] << endl;
+  }  
+  
+  // De-allocate Maze Array
+  for(int k=0; k < rs; k++){
+    delete [] maze[k];
+  }
+  delete [] maze;
+
+
+
+
+Code Sample #3: Reading Character by Character:
+  // Maze is a 2D array of characters
+  char** maze;// Readin size of Maze
+
+  // Readin size of Maze
+  cin >> cs >> rs; 
+  cout << cs << " " << rs << endl;
+  cin.ignore();    // to move read head to next line
+      
+  // Allocate Maze Array
+  maze = new char*[rs];
+  for(int k=0; k < rs; k++){
+    maze[k] = new char[cs];
+  }  
+  
+  // Read Maza Array
+  // Notice that we are reading *Character by Character* 
+  // and after every row we need to read an extra character
+  // to account for the 'end-of-line' character
+  char dummy;
+  for(int k=0; k < rs; k++){
+    for(int j=0; j < cs; j++){
+      cin.get(maze[k][j]);
+    }
+    cin.get(dummy);   // read end-of-line
+  }
+  
+  // Print Maze Array
+  for(int k=0; k < rs; k++){
+    for(int j=0; j < cs; j++){
+      cout << maze[k][j];
+    }
+    cout << endl;   // read end-of-line
+  }
+  
+  // De-allocate Maze Array
+  for(int k=0; k < rs; k++){
+    delete [] maze[k];
+  }
+  delete [] maze;
+
+END.
