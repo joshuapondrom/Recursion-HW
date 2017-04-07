@@ -10,7 +10,7 @@
 using namespace std;
 
 const bool DEBUG = false;
-const bool PRINT = false;
+const bool PRINT = true;
 
 const char EMPTY = ' ';
 const char PATH = '.';
